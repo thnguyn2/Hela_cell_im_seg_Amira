@@ -1,0 +1,248 @@
+# Amira-Script-Object V3.0
+# This is the source code for automatic segmentation of the Hela cells
+# The scro file will be loaded as a separate script to call the processing.
+# To run the processing, load the demo.hx network. It will be linked with demo.scro
+
+# The following constructor is called when the file is first loaded 
+$this proc constructor {} {
+	remove Quantification
+	$this newPortIntTextN fovidx 1
+	$this fovidx setLabel 0 "Field of view "
+	$this newPortIntTextN timeidx 1
+	$this timeidx setLabel 0 "Time "
+	
+	#Create a button for starting the processing - action is the name of the button
+	$this newPortButtonList action 1
+	$this action setLabel 0 "Start Processing"
+	$this action setCmd 0 {$this doIt} 
+}
+
+# This is the destructor, called when the Scrip object is removed
+$this proc destructor {} {
+	remove Quantification
+	remove Resample
+	remove Quantification-Analyse
+}
+
+$this proc doIt {} {
+	remove Quantification
+	remove OrthoSlice
+	remove Resample
+	remove BoundingBox
+	remove Quantification-Analyse
+	viewer redraw
+	clear
+	#Define the parameters of the data
+	set fidx [$this fovidx getValue]
+	set DATADIR E:/Tan_QDIC_hela_40x_dec/proc
+	set tidx [$this timeidx getValue]
+		clear
+		echo Working on: f${fidx}_t${tidx} data
+		set hideNewModules 0
+		[ load -tif +box 0 1310 0 1300 0 259 +mode 2 ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z6_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z7_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z8_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z9_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z10_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z11_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z12_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z13_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z14_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z15_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z16_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z17_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z18_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z19_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z20_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z21_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z22_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z23_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z24_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z25_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z26_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z27_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z28_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z29_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z30_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z31_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z32_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z33_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z34_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z35_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z36_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z37_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z38_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z39_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z40_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z41_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z42_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z43_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z44_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z45_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z46_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z47_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z48_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z49_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z50_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z51_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z52_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z53_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z54_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z55_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z56_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z57_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z58_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z59_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z60_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z61_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z62_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z63_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z64_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z65_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z66_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z67_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z68_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z69_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z70_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z71_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z72_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z73_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z74_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z75_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z76_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z77_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z78_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z79_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z80_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z81_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z82_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z83_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z84_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z85_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z86_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z87_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z88_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z89_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z90_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z91_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z92_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z93_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z94_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z95_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z96_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z97_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z98_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z99_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z100_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z101_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z102_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z103_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z104_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z105_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z106_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z107_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z108_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z109_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z110_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z111_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z112_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z113_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z114_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z115_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z116_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z117_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z118_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z119_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z120_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z121_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z122_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z123_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z124_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z125_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z126_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z127_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z128_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z129_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z130_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z131_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z132_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z133_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z134_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z135_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z136_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z137_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z138_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z139_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z140_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z141_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z142_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z143_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z144_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z145_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z146_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z147_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z148_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z149_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z150_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z151_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z152_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z153_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z154_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z155_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z156_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z157_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z158_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z159_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z160_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z161_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z162_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z163_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z164_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z165_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z166_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z167_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z168_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z169_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z170_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z171_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z172_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z173_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z174_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z175_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z176_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z177_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z178_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z179_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z180_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z181_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z182_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z183_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z184_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z185_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z186_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z187_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z188_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z189_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z190_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z191_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z192_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z193_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z194_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z195_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z196_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z197_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z198_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z199_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z200_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z201_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z202_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z203_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z204_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z205_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z206_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z207_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z208_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z209_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z210_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z211_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z212_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z213_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z214_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z215_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z216_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z217_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z218_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z219_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z220_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z221_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z222_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z223_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z224_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z225_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z226_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z227_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z228_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z229_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z230_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z231_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z232_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z233_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z234_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z235_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z236_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z237_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z238_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z239_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z240_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z241_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z242_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z243_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z244_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z245_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z246_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z247_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z248_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z249_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z250_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z251_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z252_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z253_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z254_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z255_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z256_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z257_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z258_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z259_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z260_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z261_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z262_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z263_mqdic_proc.tif ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z264_mqdic_proc.tif ] setLabel f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_proc.tif
+		set data f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_proc.tif
+		
+		#Prepare the data source for the script object
+		#set data [$this data source]
+		if {$data == ""} {return}
+		 
+		#Create the Quantification module
+		if {![exists Quantification]} {
+			create HxVisilog {Quantification}
+			Quantification Execution setValue 0
+			# Make sure colormaps are available
+			Quantification createColormaps
+		}
+		
+		echo ******************************************************
+		echo Automatic segmentation program of the Hela cells in 3D
+		create HxOrthoSlice {OrthoSlice}
+		OrthoSlice data setValue $data
+		OrthoSlice select
+		OrthoSlice fire
+		
+		#Need to rework on the resampling.
+		echo Downsampling by 2...
+		#Create the Resample module - Imitation of the OrthoSlice Catalysis.scro 
+		create HxResample {Resample}
+		Resample data connect $data
+		{Resample} fire
+		Resample filter setIndex 0 4
+		Resample mode setValue 1
+		Resample resolution setMinMax 0 1 10000
+		Resample resolution setValue 0 655.5
+		Resample resolution setMinMax 1 1 10000
+		Resample resolution setValue 1 650.5
+		Resample resolution setMinMax 2 1 10000
+		Resample resolution setValue 2 130
+		Resample voxelSize setMinMax 0 -3.40282346638529e+038 3.40282346638529e+038
+		Resample voxelSize setValue 0 2
+		Resample voxelSize setMinMax 1 -3.40282346638529e+038 3.40282346638529e+038
+		Resample voxelSize setValue 1 2
+		Resample voxelSize setMinMax 2 -3.40282346638529e+038 3.40282346638529e+038
+		Resample voxelSize setValue 2 2
+		Resample average setMinMax 0 1 32
+		Resample average setValue 0 2
+		Resample average setMinMax 1 1 32
+		Resample average setValue 1 2
+		Resample average setMinMax 2 1 32
+		Resample average setValue 2 1
+		Resample fire
+		Resample setViewerMask 16383
+		Resample select
+		Resample setPickable 1
+
+		set hideNewModules 0
+		[ {Resample} create
+		 ] setLabel {Resample_im}
+		Resample_im setIconPosition 20 70
+		Resample_im master connect Resample
+		Resample_im fire
+		
+		# #Connect the input data with an OrthoSlice
+		OrthoSlice data setValue Resample_im
+		OrthoSlice fire
+		viewer redraw
+		echo Done
+		
+		echo Thresholding for cells...
+		set LineCmd "cmd=threshold input=Resample_im param={21800,30000} output=Thres_im"
+		Quantification exeCommand $LineCmd
+		OrthoSlice data connect Thres_im  
+		{OrthoSlice} fire
+		viewer redraw
+		echo Done
+		remove Resample_im
+		
+		remove f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_proc.tif
+		
+		#Connect thresholded result with an OrthoSlice
+		echo Median filtering segmentation results...
+		set LineCmd "cmd=medianfilter3d input=Thres_im param=3 output=Med_im"
+		Quantification exeCommand $LineCmd
+		OrthoSlice data	connect Med_im
+		{OrthoSlice} fire
+		viewer redraw
+		echo Done
+		remove Thres_im
+		
+		#Connect thresholded result with an OrthoSlice
+		echo Hole filtering the binary...
+		set LineCmd "cmd=hole_fill input=Med_im param=3D_26 output=Hole_fill"
+		Quantification exeCommand $LineCmd
+		echo Done
+		OrthoSlice data connect Hole_fill
+		{OrthoSlice} fire
+		viewer redraw
+		remove Med_im
+		
+		echo Opening transform the binary...
+		set LineCmd "cmd=opening input=Hole_fill param=3 output=Open_im"
+		Quantification exeCommand $LineCmd
+		echo Done
+		OrthoSlice data connect Open_im
+		{OrthoSlice} fire
+		viewer redraw
+		remove Hole_fill
+		
+		echo Closing transform the binary...
+		set LineCmd "cmd=closing input=Open_im param=3 output=Close_im"
+		Quantification exeCommand $LineCmd
+		echo Done
+		OrthoSlice data connect Close_im
+		{OrthoSlice} fire
+		viewer redraw
+		remove Open_im
+		
+		
+		
+		#Convert to the distance
+		echo Computing distances...
+		set LineCmd "cmd=distxxx input=Close_im param=1.0 param=1.41 param=1.73 output=Dist_map"	
+		Quantification exeCommand $LineCmd
+		echo Done
+		OrthoSlice data connect Dist_map
+		{OrthoSlice} fire
+		viewer redraw
+		
+		echo Extrema merge...
+		set LineCmd "cmd=merge_maxima input=Dist_map param=8 output=merge_max"
+		Quantification exeCommand $LineCmd
+		echo Done
+		OrthoSlice data connect merge_max
+		{OrthoSlice} fire
+		viewer redraw
+		
+		echo Labeling the maximas...
+		set LineCmd "cmd=label input=merge_max output=max_label_im"
+		Quantification exeCommand $LineCmd
+		echo Done
+		OrthoSlice data connect max_label_im
+		{OrthoSlice} fire
+		viewer redraw
+		remove merge_max
+		
+		echo Inverting the distance map...
+		set LineCmd "cmd=logical_not input=Dist_map output=Inv_dist_map"
+		Quantification exeCommand $LineCmd
+		echo Done
+		remove Dist_map
+		
+		echo Watershed segmentation...
+		set LineCmd "cmd=fastwatershed input=Inv_dist_map input=max_label_im output=boundary_map"
+		Quantification exeCommand $LineCmd
+		echo Done
+		OrthoSlice data connect boundary_map
+		{OrthoSlice} fire
+		viewer redraw
+		remove merge_max
+		remove Inv_dist_map
+		remove max_label_im
+		
+		echo Subtracting boundary from closed image...
+		set LineCmd "cmd=logical_sub input=Close_im input=boundary_map output=final_res"
+		Quantification exeCommand $LineCmd
+		echo Done
+		OrthoSlice data connect final_res
+		{OrthoSlice} fire
+		viewer redraw
+		remove Close_im
+		remove boundary_map
+		
+		echo Labeling the final binary...
+		set LineCmd "cmd=label input=final_res output=final_label_im"
+		Quantification exeCommand $LineCmd
+		 OrthoSlice data connect final_label_im
+		{OrthoSlice} fire
+		viewer redraw
+		remove final_res
+		
+		echo Create volume filter...
+		set LineCmd "cmd=createfilter param=Volume3d>=300000 outflr=Volume3d_filt"
+		Quantification exeCommand $LineCmd
+		echo Done
+		
+		echo Getting rid of too small regions...
+		set LineCmd "cmd=I_filter_image input=final_label_im input=final_label_im input=Volume3d_filt param=adjust output=refined_final_label_im"
+		Quantification exeCommand $LineCmd
+		echo Done
+		remove OrthoSlice
+		create HxOrthoSlice {OrthoSlice}
+		OrthoSlice data connect refined_final_label_im
+		{OrthoSlice} fire
+		viewer redraw
+		
+		echo Taking snapshot of the segmentation result....
+		viewer snapshot refined_final_label_im ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_proc_seg.tif
+		echo Done.
+		
+		echo "Extracting measurements..."
+		echo Computing metrics.... 
+		remove anl1
+		set LineCmd "cmd=I_analyze input=refined_final_label_im param=refined_final_label_im param=adjust param=Basic outanl=anl1"
+		Quantification exeCommand $LineCmd
+		echo Done
+		
+	
+   
+}

@@ -31,10 +31,12 @@ $this proc doIt {} {
 	remove BoundingBox
 	remove Quantification-Analyse
 	viewer redraw
+	remove CastField
 	clear
 	#Define the parameters of the data
 	set fidx [$this fovidx getValue]
 	set DATADIR E:/Tan_QDIC_hela_40x_dec/proc
+	set WIENERDATADIR E:/Tan_QDIC_hela_40x_dec/deconv
 	set tidx [$this timeidx getValue]
 		clear
 		echo Working on: f${fidx}_t${tidx} data
@@ -45,6 +47,15 @@ $this proc doIt {} {
 		#Prepare the data source for the script object
 		#set data [$this data source]
 		if {$data == ""} {return}
+		
+		echo Loading deconvolution data...
+		set hideNewModules 0
+		[ load -tif +box 0 1310 0 1300 0 259 +mode 2 ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z6_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z7_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z8_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z9_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z10_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z11_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z12_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z13_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z14_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z15_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z16_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z17_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z18_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z19_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z20_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z21_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z22_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z23_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z24_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z25_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z26_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z27_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z28_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z29_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z30_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z31_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z32_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z33_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z34_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z35_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z36_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z37_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z38_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z39_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z40_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z41_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z42_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z43_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z44_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z45_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z46_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z47_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z48_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z49_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z50_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z51_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z52_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z53_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z54_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z55_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z56_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z57_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z58_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z59_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z60_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z61_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z62_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z63_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z64_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z65_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z66_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z67_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z68_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z69_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z70_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z71_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z72_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z73_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z74_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z75_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z76_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z77_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z78_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z79_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z80_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z81_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z82_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z83_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z84_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z85_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z86_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z87_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z88_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z89_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z90_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z91_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z92_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z93_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z94_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z95_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z96_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z97_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z98_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z99_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z100_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z101_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z102_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z103_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z104_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z105_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z106_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z107_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z108_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z109_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z110_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z111_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z112_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z113_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z114_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z115_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z116_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z117_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z118_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z119_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z120_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z121_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z122_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z123_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z124_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z125_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z126_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z127_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z128_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z129_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z130_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z131_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z132_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z133_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z134_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z135_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z136_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z137_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z138_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z139_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z140_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z141_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z142_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z143_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z144_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z145_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z146_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z147_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z148_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z149_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z150_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z151_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z152_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z153_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z154_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z155_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z156_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z157_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z158_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z159_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z160_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z161_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z162_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z163_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z164_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z165_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z166_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z167_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z168_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z169_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z170_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z171_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z172_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z173_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z174_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z175_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z176_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z177_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z178_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z179_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z180_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z181_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z182_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z183_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z184_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z185_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z186_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z187_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z188_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z189_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z190_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z191_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z192_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z193_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z194_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z195_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z196_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z197_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z198_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z199_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z200_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z201_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z202_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z203_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z204_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z205_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z206_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z207_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z208_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z209_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z210_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z211_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z212_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z213_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z214_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z215_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z216_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z217_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z218_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z219_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z220_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z221_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z222_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z223_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z224_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z225_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z226_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z227_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z228_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z229_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z230_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z231_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z232_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z233_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z234_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z235_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z236_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z237_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z238_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z239_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z240_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z241_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z242_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z243_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z244_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z245_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z246_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z247_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z248_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z249_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z250_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z251_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z252_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z253_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z254_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z255_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z256_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z257_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z258_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z259_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z260_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z261_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z262_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z263_mqdic_deconv.tif ${WIENERDATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z264_mqdic_deconv.tif ] setLabel f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_deconv.tif
+		set deconv_data f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_deconv.tif
+		
+		#Prepare the data source for the script object
+		#set deconv_data [$this data source]
+		if {$deconv_data == ""} {return}
 		 
 		#Create the Quantification module
 		if {![exists Quantification]} {
@@ -114,21 +125,64 @@ $this proc doIt {} {
 		echo Done
 		remove Resample_im
 		
-		remove f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_proc.tif
+		#Resample the Weiner deconvolution data
+				#Need to rework on the resampling.
+		echo Downsampling Weiner data by 2...
+		#Create the Resample module - Imitation of the OrthoSlice Catalysis.scro 
+		create HxResample {Resample2}
+		Resample2 data connect $deconv_data
+		{Resample2} fire
+		Resample2 filter setIndex 0 4
+		Resample2 mode setValue 1
+		Resample2 resolution setMinMax 0 1 10000
+		Resample2 resolution setValue 0 655.5
+		Resample2 resolution setMinMax 1 1 10000
+		Resample2 resolution setValue 1 650.5
+		Resample2 resolution setMinMax 2 1 10000
+		Resample2 resolution setValue 2 130
+		Resample2 voxelSize setMinMax 0 -3.40282346638529e+038 3.40282346638529e+038
+		Resample2 voxelSize setValue 0 2
+		Resample2 voxelSize setMinMax 1 -3.40282346638529e+038 3.40282346638529e+038
+		Resample2 voxelSize setValue 1 2
+		Resample2 voxelSize setMinMax 2 -3.40282346638529e+038 3.40282346638529e+038
+		Resample2 voxelSize setValue 2 2
+		Resample2 average setMinMax 0 1 32
+		Resample2 average setValue 0 2
+		Resample2 average setMinMax 1 1 32
+		Resample2 average setValue 1 2
+		Resample2 average setMinMax 2 1 32
+		Resample2 average setValue 2 1
+		Resample2 fire
+		Resample2 setViewerMask 16383
+		Resample2 select
+		Resample2 setPickable 1
+
+		set hideNewModules 0
+		[ {Resample2} create
+		 ] setLabel {Resample_deconv_im}
+		Resample_deconv_im master connect Resample2
+		Resample_deconv_im fire
 		
-		#Connect thresholded result with an OrthoSlice
-		echo Median filtering segmentation results...
-		set LineCmd "cmd=medianfilter3d input=Thres_im param=3 output=Med_im"
-		Quantification exeCommand $LineCmd
-		OrthoSlice data	connect Med_im
-		{OrthoSlice} fire
-		viewer redraw
-		echo Done
-		remove Thres_im
+		
+		
+		
+		remove f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_proc.tif
+		remove f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_deconv.tif
+		#remove deconv_data
+		
+		# #Connect thresholded result with an OrthoSlice
+		# echo Median filtering segmentation results...
+		# set LineCmd "cmd=medianfilter3d input=Thres_im param=3 output=Med_im"
+		# Quantification exeCommand $LineCmd
+		# OrthoSlice data	connect Med_im
+		# {OrthoSlice} fire
+		# viewer redraw
+		# echo Done
+	
 		
 		#Connect thresholded result with an OrthoSlice
 		echo Hole filtering the binary...
-		set LineCmd "cmd=hole_fill input=Med_im param=3D_26 output=Hole_fill"
+		set LineCmd "cmd=hole_fill input=Thres_im param=3D_26 output=Hole_fill"
 		Quantification exeCommand $LineCmd
 		echo Done
 		OrthoSlice data connect Hole_fill
@@ -153,6 +207,7 @@ $this proc doIt {} {
 		{OrthoSlice} fire
 		viewer redraw
 		remove Open_im
+		remove Thres_im
 		
 		
 		
@@ -209,21 +264,14 @@ $this proc doIt {} {
 		remove Close_im
 		remove boundary_map
 		
-		echo Labeling the final binary...
-		set LineCmd "cmd=label input=final_res output=final_label_im"
-		Quantification exeCommand $LineCmd
-		 OrthoSlice data connect final_label_im
-		{OrthoSlice} fire
-		viewer redraw
-		remove final_res
-		
 		echo Create volume filter...
 		set LineCmd "cmd=createfilter param=Volume3d>=300000 outflr=Volume3d_filt"
 		Quantification exeCommand $LineCmd
 		echo Done
 		
+		
 		echo Getting rid of too small regions...
-		set LineCmd "cmd=I_filter_image input=final_label_im input=final_label_im input=Volume3d_filt param=adjust output=refined_final_label_im"
+		set LineCmd "cmd=I_filter_image input=final_res input=final_res input=Volume3d_filt param=adjust output=refined_final_label_im"
 		Quantification exeCommand $LineCmd
 		echo Done
 		remove OrthoSlice
@@ -231,17 +279,62 @@ $this proc doIt {} {
 		OrthoSlice data connect refined_final_label_im
 		{OrthoSlice} fire
 		viewer redraw
+		#remove final_res
+		
+		echo Computing refined binary...
+		set LineCmd "cmd=threshold input=refined_final_label_im param={1.000,100.000} output=refined_binary "
+		Quantification exeCommand $LineCmd
+		echo Done
+		
+		echo Convert refined binary into float...
+		# OrthoSlice data connect refined_final_label_im
+		# {OrthoSlice} fire
+		# viewer redraw
+		set hideNewModules 0
+		if {![exists CastField]} {
+			create HxCastField {CastField}
+		}
+		CastField data connect refined_binary
+		CastField fire
+		CastField outputType setIndex 0 4
+		CastField scaling setMinMax 0 -3.40282346638529e+038 3.40282346638529e+038
+		CastField scaling setValue 0 1
+		CastField scaling setMinMax 1 -3.40282346638529e+038 3.40282346638529e+038
+		CastField scaling setValue 1 0
+		CastField voxelGridOptions setValue 0 1
+		CastField voxelGridOptions setToggleVisible 0 1
+		CastField colorFieldOptions setIndex 0 0
+		CastField fire
+		
+		[ {CastField} create
+		] setLabel {refined_binary_float}
+		
+		remove refined_binary
+		echo Done
+		
+		echo Multiplying refined_boundary with the original phase map...
+		set LineCmd "cmd=multiply input=Resample_deconv_im input=refined_binary_float output=Multiplied_map"
+		Quantification exeCommand $LineCmd
+		echo Done
+		
+	
 		
 		echo Taking snapshot of the segmentation result....
-		viewer snapshot refined_final_label_im ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_proc_seg.tif
+		viewer snapshot ${DATADIR}/f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_proc_seg.tif
 		echo Done.
 		
 		echo "Extracting measurements..."
 		echo Computing metrics.... 
 		remove anl1
-		set LineCmd "cmd=I_analyze input=refined_final_label_im param=refined_final_label_im param=adjust param=Basic outanl=anl1"
+		set LineCmd "cmd=I_analyze input=refined_final_label_im param=Multiplied_map param=adjust param=Basic outanl=anl1"
 		Quantification exeCommand $LineCmd
 		echo Done
+		
+		remove Resample_deconv_im
+		remove refined_binary_float
+		remove final_res
+		
+		
 		
 	
    

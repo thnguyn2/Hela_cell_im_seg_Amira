@@ -117,7 +117,7 @@ $this proc doIt {} {
 		echo Done
 		
 		echo Thresholding for cells...
-		set LineCmd "cmd=threshold input=Resample_im param={21800,30000} output=Thres_im"
+		set LineCmd "cmd=threshold input=Resample_im param={22500,30000} output=Thres_im"
 		Quantification exeCommand $LineCmd
 		OrthoSlice data connect Thres_im  
 		{OrthoSlice} fire
@@ -163,7 +163,39 @@ $this proc doIt {} {
 		Resample_deconv_im master connect Resample2
 		Resample_deconv_im fire
 		
+		echo Thresholding deconvolution image...
+		set LineCmd "cmd=threshold input=Resample_deconv_im param={0,20} output=Thres_deconv_bin"
+		Quantification exeCommand $LineCmd
 		
+		echo Casting it to float...
+		set hideNewModules 0
+		if {![exists CastField2]} {
+			create HxCastField {CastField2}
+		}
+		CastField2 data connect Thres_deconv_bin
+		CastField2 fire
+		CastField2 outputType setIndex 0 4
+		CastField2 scaling setMinMax 0 -3.40282346638529e+038 3.40282346638529e+038
+		CastField2 scaling setValue 0 1
+		CastField2 scaling setMinMax 1 -3.40282346638529e+038 3.40282346638529e+038
+		CastField2 scaling setValue 1 0
+		CastField2 voxelGridOptions setValue 0 1
+		CastField2 voxelGridOptions setToggleVisible 0 1
+		CastField2 colorFieldOptions setIndex 0 0
+		CastField2 fire
+		
+		[ {CastField2} create
+		] setLabel {Thres_deconv_bin_float}
+		
+		echo Multiplying binary mask of deconv. to deconv. image...
+		Quantification exeCommand $LineCmd
+		set LineCmd "cmd=multiply input=Resample_deconv_im input=Thres_deconv_bin_float output=Resample_deconv_im2"
+		Quantification exeCommand $LineCmd
+		echo Done
+		
+		remove Thres_deconv_bin_float
+		#remove Thres_deconv_bin
+		#remove Resample_im
 		
 		
 		remove f${fidx}_t${tidx}_i0_ch0_c0_r0_z5_mqdic_proc.tif
@@ -261,7 +293,7 @@ $this proc doIt {} {
 		OrthoSlice data connect final_res
 		{OrthoSlice} fire
 		viewer redraw
-		remove Close_im
+		#remove Close_im
 		remove boundary_map
 		
 		echo Create volume filter...
@@ -313,10 +345,11 @@ $this proc doIt {} {
 		echo Done
 		
 		echo Multiplying refined_boundary with the original phase map...
-		set LineCmd "cmd=multiply input=Resample_deconv_im input=refined_binary_float output=Multiplied_map"
+		set LineCmd "cmd=multiply input=Resample_deconv_im2 input=refined_binary_float output=Multiplied_map"
 		Quantification exeCommand $LineCmd
 		echo Done
 		
+		remove Resample_deconv_im2
 	
 		
 		echo Taking snapshot of the segmentation result....
@@ -326,13 +359,114 @@ $this proc doIt {} {
 		echo "Extracting measurements..."
 		echo Computing metrics.... 
 		remove anl1
-		set LineCmd "cmd=I_analyze input=refined_final_label_im param=Multiplied_map param=adjust param=Basic outanl=anl1"
+		set LineCmd "cmd=I_analyze input=refined_final_label_im param=Multiplied_map param=adjust param=All outanl=anl1"
 		Quantification exeCommand $LineCmd
 		echo Done
+		
+		
 		
 		remove Resample_deconv_im
 		remove refined_binary_float
 		remove final_res
+		remove CastField2
+		
+		
+		echo Rendering segmentation result
+		set hideNewModules 0
+		create HxGMC {SurfaceGen}
+		SurfaceGen data connect refined_final_label_im
+		SurfaceGen fire
+		SurfaceGen smoothing setIndex 0 3
+		SurfaceGen options setValue 0 1
+		SurfaceGen options setToggleVisible 0 1
+		SurfaceGen options setValue 1 0
+		SurfaceGen options setToggleVisible 1 1
+		SurfaceGen border setValue 0 1
+		SurfaceGen border setToggleVisible 0 1
+		SurfaceGen border setValue 1 0
+		SurfaceGen border setToggleVisible 1 1
+		SurfaceGen minEdgeLength setMinMax 0 0 0.800000011920929
+		SurfaceGen minEdgeLength setValue 0 0
+		SurfaceGen materialList setIndex 0 0
+		SurfaceGen fire
+		SurfaceGen setViewerMask 16383
+		SurfaceGen setPickable 1
+
+		set hideNewModules 0
+		[ {SurfaceGen} create {refined_final_label_im.surf}
+		 ] setLabel {refined_final_label_im.surf}
+		refined_final_label_im.surf setIconPosition 157 160
+		refined_final_label_im.surf master connect SurfaceGen
+		refined_final_label_im.surf fire
+		refined_final_label_im.surf LevelOfDetail setMinMax -1 -1
+		refined_final_label_im.surf LevelOfDetail setButtons 1
+		refined_final_label_im.surf LevelOfDetail setIncrement 1
+		refined_final_label_im.surf LevelOfDetail setValue -1
+		refined_final_label_im.surf LevelOfDetail setSubMinMax -1 -1
+		refined_final_label_im.surf setTransform 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1
+		refined_final_label_im.surf fire
+		refined_final_label_im.surf setViewerMask 16383
+		refined_final_label_im.surf select
+
+		set hideNewModules 0
+		create HxDisplaySurface {SurfaceView}
+		SurfaceView data connect refined_final_label_im.surf
+		SurfaceView colormap setDefaultColor 1 0.1 0.1
+		SurfaceView colormap setDefaultAlpha 0.500000
+		SurfaceView fire
+		SurfaceView drawStyle setValue 1
+		SurfaceView fire
+		SurfaceView drawStyle setSpecularLighting 1
+		SurfaceView drawStyle setTexture 1
+		SurfaceView drawStyle setAlphaMode 1
+		SurfaceView drawStyle setNormalBinding 0
+		SurfaceView drawStyle setSortingMode 1
+		SurfaceView drawStyle setLineWidth 0.000000
+		SurfaceView drawStyle setOutlineColor 0 0 0.2
+		SurfaceView textureWrap setIndex 0 1
+		SurfaceView cullingMode setValue 0
+		SurfaceView selectionMode setIndex 0 0
+		SurfaceView Patch setMinMax 0 4
+		SurfaceView Patch setButtons 1
+		SurfaceView Patch setIncrement 1
+		SurfaceView Patch setValue 0
+		SurfaceView Patch setSubMinMax 0 4
+		SurfaceView BoundaryId setIndex 0 -1
+		SurfaceView materials setIndex 0 1
+		SurfaceView materials setIndex 1 0
+		SurfaceView colorMode setIndex 0 0
+		SurfaceView baseTrans setMinMax 0 1
+		SurfaceView baseTrans setButtons 0
+		SurfaceView baseTrans setIncrement 0.1
+		SurfaceView baseTrans setValue 0.8
+		SurfaceView baseTrans setSubMinMax 0 1
+		SurfaceView VRMode setIndex 0 0
+		SurfaceView fire
+		SurfaceView hideBox 1
+		{SurfaceView} selectTriangles zab HIJMONMDDBANAAAAAMADCAGJPDKPKKKLIMBOJAJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALAOKPKABNFPNAHEG
+		SurfaceView fire
+		SurfaceView setViewerMask 16383
+		SurfaceView setShadowStyle 0
+		SurfaceView setPickable 1
+		
+		set hideNewModules 0
+		create HxBoundingBox {BoundingBox}
+		BoundingBox data connect refined_final_label_im.surf
+		BoundingBox fire
+		BoundingBox options setState item 0 0 color 1 1 0.5 0 item 3 0 
+		BoundingBox lineWidth setMinMax 1 10
+		BoundingBox lineWidth setButtons 0
+		BoundingBox lineWidth setIncrement 1
+		BoundingBox lineWidth setValue 1
+		BoundingBox lineWidth setSubMinMax 1 10
+		BoundingBox font setState name: {Helvetica} size: 12 bold: 0 italic: 0 color: 0.8 0.8 0.8
+		BoundingBox fire
+		BoundingBox setViewerMask 16383
+		BoundingBox select
+		BoundingBox setShadowStyle 0
+		BoundingBox setPickable 1
+
+
 		
 		
 		
